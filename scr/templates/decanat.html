@@ -1,0 +1,812 @@
+{% extends "base.html" %}
+
+{% block title %}Онлайн-деканат{% endblock %}
+
+{% block content %}
+<div class="p-5" id="decanat">
+    <div class="mb-5">
+        <h1 class="text-heading font-bold text-gray-900">
+            Онлайн-деканат
+        </h1>
+        <p class="text-base text-gray-600 mt-1">
+            Подача заявлений, получение справок и документов
+        </p>
+    </div>
+    
+    <!-- Верхний ряд карточек -->
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-5">
+        <!-- Быстрые действия -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h2 class="text-subheading font-semibold text-gray-900 mb-4">
+                Быстрые действия
+            </h2>
+            <div class="grid grid-cols-2 gap-3">
+                <button class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" id="certificate-btn">
+                    <div class="w-8 h-8 bg-blue-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                        <div class="w-4 h-4 flex items-center justify-center text-blue-600">
+                            <i class="ri-file-text-line"></i>
+                        </div>
+                    </div>
+                    <span class="text-base font-medium text-gray-900">
+                        Справка об обучении
+                    </span>
+                </button>
+
+                <button class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" id="academic-leave-btn">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                        <div class="w-4 h-4 flex items-center justify-center text-green-600">
+                            <i class="ri-calendar-line"></i>
+                        </div>
+                    </div>
+                    <span class="text-base font-medium text-gray-900">
+                        Академический отпуск
+                    </span>
+                </button>
+
+                <button class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" id="transfer-btn">
+                    <div class="w-8 h-8 bg-purple-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                        <div class="w-4 h-4 flex items-center justify-center text-purple-600">
+                            <i class="ri-exchange-line"></i>
+                        </div>
+                    </div>
+                    <span class="text-base font-medium text-gray-900">
+                        Перевод на другой факультет
+                    </span>
+                </button>
+
+                <button class="p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors" id="dormitory-btn">
+                    <div class="w-8 h-8 bg-orange-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                        <div class="w-4 h-4 flex items-center justify-center text-orange-600">
+                            <i class="ri-home-line"></i>
+                        </div>
+                    </div>
+                    <span class="text-base font-medium text-gray-900">
+                        Общежитие
+                    </span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Статус заявлений -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h2 class="text-subheading font-semibold text-gray-900 mb-4">
+                Статус заявлений
+            </h2>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <div>
+                        <h3 class="font-medium text-gray-900 text-base">
+                            Справка об обучении
+                        </h3>
+                        <p class="text-base text-gray-600">
+                            Подано 15 декабря 2024
+                        </p>
+                    </div>
+                    <span class="px-2 py-1 bg-green-100 text-green-800 text-base rounded">
+                        Готово
+                    </span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                    <div>
+                        <h3 class="font-medium text-gray-900 text-base">
+                            Справка о стипендии
+                        </h3>
+                        <p class="text-base text-gray-600">
+                            Подано 12 декабря 2024
+                        </p>
+                    </div>
+                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-base rounded">
+                        В обработке
+                    </span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                    <div>
+                        <h3 class="font-medium text-gray-900 text-base">
+                            Заявление на повышенную стипендию
+                        </h3>
+                        <p class="text-base text-gray-600">
+                            Подано 10 декабря 2024
+                        </p>
+                    </div>
+                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-base rounded">
+                        На рассмотрении
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Расписание консультаций -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="p-6 border-b border-gray-200">
+            <h2 class="text-subheading font-semibold text-gray-900">
+                Расписание консультаций
+            </h2>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <img alt="Сотрудник" class="w-10 h-10 rounded-full object-cover" src="https://регпостпреды.рф/gallery_gen/0db1cd652c1f1fba4797853a53fb2033_506x504_227x0_935x627_crop.jpg?ts=1763015425"/>
+                        <div>
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Иванова Е.П.
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Методист деканата
+                            </p>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-base">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">
+                                Понедельник:
+                            </span>
+                            <span class="text-gray-900">
+                                9:00-12:00
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">
+                                Среда:
+                            </span>
+                            <span class="text-gray-900">
+                                14:00-17:00
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">
+                                Кабинет:
+                            </span>
+                            <span class="text-gray-900">
+                                201
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <img alt="Сотрудник" class="w-10 h-10 rounded-full object-cover" src="https://qafqazinfo.az/uploads/1665577171/IlkinGuliyev_pic.jpg"/>
+                        <div>
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Петров А.С.
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Заместитель декана
+                            </p>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-base">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">
+                                Вторник:
+                            </span>
+                            <span class="text-gray-900">
+                                10:00-13:00
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">
+                                Четверг:
+                            </span>
+                            <span class="text-gray-900">
+                                15:00-18:00
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">
+                                Кабинет:
+                            </span>
+                            <span class="text-gray-900">
+                                205
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 border border-gray-200 rounded-lg">
+                    <div class="flex items-center gap-3 mb-3">
+                        <img alt="Сотрудник" class="w-10 h-10 rounded-full object-cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Harry_Glawe.jpg/1200px-Harry_Glawe.jpg"/>
+                        <div>
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Сидорова М.В.
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Специалист по стипендиям
+                            </p>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-base">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">
+                                Ежедневно:
+                            </span>
+                            <span class="text-gray-900">
+                                9:00-16:00
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">
+                                Обед:
+                            </span>
+                            <span class="text-gray-900">
+                                12:00-13:00
+                            </span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">
+                                Кабинет:
+                            </span>
+                            <span class="text-gray-900">
+                                203
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50" id="certificate-modal">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-4">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-subheading font-semibold text-gray-900">
+                        Заказ справки
+                    </h3>
+                    <button class="text-gray-400 hover:text-gray-500" id="close-certificate-modal">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-close-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <form class="p-6 space-y-4" id="certificate-form" method="POST" action="/decanat/certificate">
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Тип справки
+                    </label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8 text-base" name="certificateType" required>
+                        <option value="study">
+                            Справка об обучении
+                        </option>
+                        <option value="enrollment">
+                            Справка о зачислении
+                        </option>
+                        <option value="academic">
+                            Академическая справка
+                        </option>
+                        <option value="scholarship">
+                            Справка о стипендии
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Количество экземпляров
+                    </label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base" max="5" min="1" name="copies" type="number" value="1" required/>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Цель получения
+                    </label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base" name="purpose" placeholder="Укажите цель получения справки" type="text" required/>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Способ получения
+                    </label>
+                    <div class="space-y-2 text-base">
+                        <label class="flex items-center gap-2">
+                            <input checked="" class="text-primary" name="deliveryMethod" type="radio" value="office" required/>
+                            <span>
+                                Получить лично в деканате
+                            </span>
+                        </label>
+                        <label class="flex items-center gap-2">
+                            <input class="text-primary" name="deliveryMethod" type="radio" value="mail"/>
+                            <span>
+                                Отправка по почте
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center gap-2 text-blue-800 mb-2">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-information-line"></i>
+                        </div>
+                        <span class="font-medium text-base">
+                            Сроки изготовления
+                        </span>
+                    </div>
+                    <p class="text-base text-blue-700">
+                        Справка будет готова в течение 3 рабочих дней с момента подачи заявления
+                    </p>
+                </div>
+                <div class="pt-4">
+                    <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-blue-600 transition-colors text-base" type="submit">
+                        Заказать справку
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50" id="academic-leave-modal">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-4">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-subheading font-semibold text-gray-900">
+                        Заявление на академический отпуск
+                    </h3>
+                    <button class="text-gray-400 hover:text-gray-500" id="close-academic-leave-modal">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-close-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <form class="p-6 space-y-4" id="academic-leave-form" method="POST" action="/decanat/academic_leave">
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Тип академического отпуска
+                    </label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8 text-base" name="leaveType" required>
+                        <option value="medical">
+                            По болезни
+                        </option>
+                        <option value="family">
+                            По семейным обстоятельствам
+                        </option>
+                        <option value="other">
+                            По уважительной причине
+                        </option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-base font-medium text-gray-700 mb-2">
+                            Дата начала
+                        </label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base" name="startDate" type="date" required/>
+                    </div>
+                    <div>
+                        <label class="block text-base font-medium text-gray-700 mb-2">
+                            Дата окончания
+                        </label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base" name="endDate" type="date" required/>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Причина
+                    </label>
+                    <textarea class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base" name="reason" placeholder="Опишите причину запроса академического отпуска..." rows="4" required></textarea>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Подтверждающие документы
+                    </label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                        <div class="w-8 h-8 bg-gray-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                            <div class="w-4 h-4 flex items-center justify-center text-gray-600">
+                                <i class="ri-upload-cloud-line"></i>
+                            </div>
+                        </div>
+                        <p class="text-base text-gray-600 mb-2">
+                            Загрузите необходимые документы
+                        </p>
+                        <input type="file" class="hidden" id="academic-leave-files" multiple>
+                        <button class="text-primary hover:underline text-base" type="button" id="academic-leave-upload-btn">
+                            Выбрать файлы
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center gap-2 text-blue-800 mb-2">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-information-line"></i>
+                        </div>
+                        <span class="font-medium text-base">
+                            Сроки рассмотрения
+                        </span>
+                    </div>
+                    <p class="text-base text-blue-700">
+                        Заявление будет рассмотрено в течение 10 рабочих дней с момента подачи
+                    </p>
+                </div>
+                <div class="pt-4">
+                    <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-blue-600 transition-colors text-base" type="submit">
+                        Подать заявление
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50" id="transfer-modal">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-4">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-subheading font-semibold text-gray-900">
+                        Заявление на перевод
+                    </h3>
+                    <button class="text-gray-400 hover:text-gray-500" id="close-transfer-modal">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-close-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <form class="p-6 space-y-4" id="transfer-form" method="POST" action="/decanat/transfer">
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Целевой факультет
+                    </label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8 text-base" name="targetFaculty" required>
+                        <option value="">
+                            Выберите факультет
+                        </option>
+                        <option value="economics">
+                            Экономический факультет
+                        </option>
+                        <option value="law">
+                            Юридический факультет
+                        </option>
+                        <option value="physics">
+                            Физический факультет
+                        </option>
+                        <option value="philology">
+                            Филологический факультет
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Направление подготовки
+                    </label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8 text-base" name="specialization" required>
+                        <option value="">
+                            Выберите направление
+                        </option>
+                        <option value="economics">
+                            Экономика
+                        </option>
+                        <option value="management">
+                            Менеджмент
+                        </option>
+                        <option value="law">
+                            Юриспруденция
+                        </option>
+                        <option value="physics">
+                            Физика
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Курс для перевода
+                    </label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8 text-base" name="targetCourse" required>
+                        <option value="1">
+                            1 курс
+                        </option>
+                        <option value="2">
+                            2 курс
+                        </option>
+                        <option value="3">
+                            3 курс
+                        </option>
+                        <option value="4">
+                            4 курс
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Причина перевода
+                    </label>
+                    <textarea class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base" name="reason" placeholder="Опишите причину перевода..." rows="4" required></textarea>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Подтверждающие документы
+                    </label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                        <div class="w-8 h-8 bg-gray-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                            <div class="w-4 h-4 flex items-center justify-center text-gray-600">
+                                <i class="ri-upload-cloud-line"></i>
+                            </div>
+                        </div>
+                        <p class="text-base text-gray-600 mb-2">
+                            Загрузите необходимые документы
+                        </p>
+                        <input type="file" class="hidden" id="transfer-files" multiple>
+                        <button class="text-primary hover:underline text-base" type="button" id="transfer-upload-btn">
+                            Выбрать файлы
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center gap-2 text-blue-800 mb-2">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-information-line"></i>
+                        </div>
+                        <span class="font-medium text-base">
+                            Требования к переводу
+                        </span>
+                    </div>
+                    <ul class="text-base text-blue-700 space-y-1">
+                        <li>
+                            • Отсутствие академических задолженностей
+                        </li>
+                        <li>
+                            • Средний балл не ниже 4.0
+                        </li>
+                        <li>
+                            • Наличие всех зачетов и экзаменов
+                        </li>
+                        <li>
+                            • Согласование с деканатом
+                        </li>
+                    </ul>
+                    <div class="mt-3 pt-3 border-t border-blue-100">
+                        <p class="text-base text-blue-700">
+                            Срок рассмотрения заявления: 14 рабочих дней
+                        </p>
+                    </div>
+                </div>
+                <div class="pt-4">
+                    <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-blue-600 transition-colors text-base" type="submit">
+                        Подать заявление
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50" id="dormitory-modal">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-4">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-subheading font-semibold text-gray-900">
+                        Заявление на общежитие
+                    </h3>
+                    <button class="text-gray-400 hover:text-gray-500" id="close-dormitory-modal">
+                        <div class="w-6 h-6 flex items-center justify-center">
+                            <i class="ri-close-line"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <form class="p-6 space-y-4" id="dormitory-form" method="POST" action="/decanat/dormitory">
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Тип заявления
+                    </label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8 text-base" name="requestType" required>
+                        <option value="checkin">
+                            Заселение
+                        </option>
+                        <option value="checkout">
+                            Выселение
+                        </option>
+                        <option value="change">
+                            Смена комнаты
+                        </option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-base font-medium text-gray-700 mb-2">
+                            Дата заселения
+                        </label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base" name="checkInDate" type="date" required/>
+                    </div>
+                    <div>
+                        <label class="block text-base font-medium text-gray-700 mb-2">
+                            Срок проживания
+                        </label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8 text-base" name="duration" required>
+                            <option value="semester">
+                                Семестр
+                            </option>
+                            <option value="year">
+                                Учебный год
+                            </option>
+                            <option value="summer">
+                                Летний период
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Предпочтения по комнате
+                    </label>
+                    <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-8 text-base" name="roomType" required>
+                        <option value="2">
+                            Двухместная комната
+                        </option>
+                        <option value="3">
+                            Трехместная комната
+                        </option>
+                        <option value="4">
+                            Четырехместная комната
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Дополнительные пожелания
+                    </label>
+                    <textarea class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base" name="preferences" placeholder="Укажите ваши пожелания по проживанию..." rows="3"></textarea>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Контактный телефон
+                    </label>
+                    <input class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base" name="phone" placeholder="+7 (___) ___-__-__" type="tel" required/>
+                </div>
+                <div>
+                    <label class="block text-base font-medium text-gray-700 mb-2">
+                        Необходимые документы
+                    </label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                        <div class="w-8 h-8 bg-gray-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                            <div class="w-4 h-4 flex items-center justify-center text-gray-600">
+                                <i class="ri-upload-cloud-line"></i>
+                            </div>
+                        </div>
+                        <p class="text-base text-gray-600 mb-2">
+                            Загрузите необходимые документы
+                        </p>
+                        <input type="file" class="hidden" id="dormitory-files" multiple>
+                        <button class="text-primary hover:underline text-base" type="button" id="dormitory-upload-btn">
+                            Выбрать файлы
+                        </button>
+                    </div>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <div class="flex items-center gap-2 text-blue-800 mb-2">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-information-line"></i>
+                        </div>
+                        <span class="font-medium text-base">
+                            Требуемые документы
+                        </span>
+                    </div>
+                    <ul class="text-base text-blue-700 space-y-1">
+                        <li>
+                            • Копия паспорта
+                        </li>
+                        <li>
+                            • Справка о состоянии здоровья
+                        </li>
+                        <li>
+                            • Фотография 3x4
+                        </li>
+                    </ul>
+                </div>
+                <div class="pt-4">
+                    <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-blue-600 transition-colors text-base" type="submit">
+                        Подать заявление
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// JavaScript для модальных окон деканата
+document.addEventListener('DOMContentLoaded', function() {
+    // Функция для управления модальными окнами
+    function initModal(openBtnId, modalId, closeBtnId) {
+        const openBtn = document.getElementById(openBtnId);
+        const modal = document.getElementById(modalId);
+        const closeBtn = document.getElementById(closeBtnId);
+        
+        if (openBtn && modal && closeBtn) {
+            openBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Блокируем скролл
+            });
+            
+            closeBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; // Разблокируем скролл
+            });
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Закрытие по ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+    }
+
+    // Инициализация всех модальных окон
+    initModal('certificate-btn', 'certificate-modal', 'close-certificate-modal');
+    initModal('academic-leave-btn', 'academic-leave-modal', 'close-academic-leave-modal');
+    initModal('transfer-btn', 'transfer-modal', 'close-transfer-modal');
+    initModal('dormitory-btn', 'dormitory-modal', 'close-dormitory-modal');
+
+    // Функциональность загрузки файлов
+    function initFileUpload(uploadBtnId, fileInputId) {
+        const uploadBtn = document.getElementById(uploadBtnId);
+        const fileInput = document.getElementById(fileInputId);
+        
+        if (uploadBtn && fileInput) {
+            uploadBtn.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    uploadBtn.textContent = `Выбрано файлов: ${e.target.files.length}`;
+                    uploadBtn.classList.add('text-green-600');
+                }
+            });
+        }
+    }
+
+    // Инициализация загрузки файлов для всех форм
+    initFileUpload('academic-leave-upload-btn', 'academic-leave-files');
+    initFileUpload('transfer-upload-btn', 'transfer-files');
+    initFileUpload('dormitory-upload-btn', 'dormitory-files');
+
+    // Обработка отправки форм (можно добавить валидацию)
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Здесь можно добавить дополнительную валидацию
+            const formData = new FormData(this);
+            
+            // Симуляция успешной отправки
+            const modal = this.closest('.fixed');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+            
+            // Показываем уведомление об успешной отправке
+            showNotification('Заявление успешно отправлено!', 'success');
+            
+            // В реальном приложении здесь будет AJAX запрос к серверу
+            console.log('Отправка формы:', Object.fromEntries(formData));
+        });
+    });
+
+    // Функция показа уведомлений
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+            type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+        }`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+});
+</script>
+{% endblock %}

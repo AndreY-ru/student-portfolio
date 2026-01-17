@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Уведомления - Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="p-5">
+    <!-- Убираем фиксированную высоту, используем auto для адаптивности -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col">
+        <!-- Заголовок -->
+        <div class="p-4 lg:p-5 border-b border-gray-200">
+            <h1 class="text-[34px] font-bold text-gray-900">
+                Уведомления
+            </h1>
+            <p class="text-[14px] text-gray-600 mt-1">
+                Системные уведомления и сообщения от преподавателей
+            </p>
+        </div>
+
+        <!-- Фильтры -->
+        <div class="p-3 lg:p-4 border-b border-gray-200">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div class="flex flex-wrap gap-2">
+                    <button class="px-3 py-1 bg-primary text-white rounded-full text-[14px]">
+                        Все
+                    </button>
+                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-full text-[14px]">
+                        Непрочитанные
+                    </button>
+                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-full text-[14px]">
+                        Системные
+                    </button>
+                    <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded-full text-[14px]">
+                        От преподавателей
+                    </button>
+                </div>
+                <button class="text-[14px] text-primary hover:underline self-start sm:self-auto mt-2 sm:mt-0">
+                    Отметить все как прочитанные
+                </button>
+            </div>
+        </div>
+
+        <!-- Список уведомлений - убираем flex-1 и overflow-y-auto -->
+        <div>
+            <div class="divide-y divide-gray-200">
+                <!-- Уведомление 1 -->
+                <div class="p-3 lg:p-4 hover:bg-gray-50 border-l-4 border-red-500">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <div class="w-4 h-4 flex items-center justify-center text-red-600">
+                                <i class="ri-error-warning-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                                <h3 class="font-medium text-gray-900 text-[14px]">
+                                    Срочно: Изменение расписания
+                                </h3>
+                                <span class="text-[14px] text-gray-500">
+                                    5 мин назад
+                                </span>
+                            </div>
+                            <p class="text-gray-600 mt-2 text-[14px]">
+                                Занятие по дисциплине "Базы данных" перенесено с 14:00 на 16:00 в аудиторию 205.
+                            </p>
+                            <div class="mt-2">
+                                <span class="inline-block bg-red-100 text-red-800 text-[14px] px-2 py-1 rounded">
+                                    Системное
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Уведомление 2 -->
+                <div class="p-3 lg:p-4 hover:bg-gray-50 border-l-4 border-blue-500">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <div class="w-4 h-4 flex items-center justify-center text-blue-600">
+                                <i class="ri-user-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                                <h3 class="font-medium text-gray-900 text-[14px]">
+                                    Новое задание от преподавателя
+                                </h3>
+                                <span class="text-[14px] text-gray-500">
+                                    1 час назад
+                                </span>
+                            </div>
+                            <p class="text-gray-600 mt-2 text-[14px]">
+                                Профессор Иванов И.И. добавил новое практическое задание по курсу "Алгоритмы и структуры данных". Срок сдачи: 25 декабря.
+                            </p>
+                            <div class="mt-2">
+                                <span class="inline-block bg-blue-100 text-blue-800 text-[14px] px-2 py-1 rounded">
+                                    От преподавателя
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Уведомление 3 -->
+                <div class="p-3 lg:p-4 hover:bg-gray-50 border-l-4 border-green-500">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <div class="w-4 h-4 flex items-center justify-center text-green-600">
+                                <i class="ri-check-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                                <h3 class="font-medium text-gray-900 text-[14px]">
+                                    Оценка выставлена
+                                </h3>
+                                <span class="text-[14px] text-gray-500">
+                                    3 часа назад
+                                </span>
+                            </div>
+                            <p class="text-gray-600 mt-2 text-[14px]">
+                                За лабораторную работу №5 по дисциплине "Веб-программирование" выставлена оценка "Отлично".
+                            </p>
+                            <div class="mt-2">
+                                <span class="inline-block bg-green-100 text-green-800 text-[14px] px-2 py-1 rounded">
+                                    Оценки
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Уведомление 4 -->
+                <div class="p-3 lg:p-4 hover:bg-gray-50 border-l-4 border-gray-300 opacity-75">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <div class="w-4 h-4 flex items-center justify-center text-gray-600">
+                                <i class="ri-information-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                                <h3 class="font-medium text-gray-700 text-[14px]">
+                                    Напоминание о зачете
+                                </h3>
+                                <span class="text-[14px] text-gray-500">
+                                    1 день назад
+                                </span>
+                            </div>
+                            <p class="text-gray-600 mt-2 text-[14px]">
+                                Не забудьте подготовиться к зачету по дисциплине "Математическая логика" 28 декабря в 10:00.
+                            </p>
+                            <div class="mt-2">
+                                <span class="inline-block bg-gray-100 text-gray-800 text-[14px] px-2 py-1 rounded">
+                                    Напоминание
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

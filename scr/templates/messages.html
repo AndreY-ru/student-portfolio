@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Сообщения - Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="p-5">
+    <div class="flex flex-col lg:flex-row gap-5" id="messages">
+        <!-- Левая карточка - Диалоги -->
+        <div class="w-full lg:w-[345px] h-[600px] lg:h-[790px] bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col">
+            <!-- Заголовок -->
+            <div class="p-6 border-b border-gray-200">
+                <h1 class="text-heading font-bold text-gray-900">
+                    Сообщения
+                </h1>
+                <p class="text-base text-gray-600 mt-1">
+                    Переписка с преподавателями и администрацией
+                </p>
+            </div>
+            
+            <!-- Список диалогов -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="divide-y divide-gray-200">
+                    <div class="p-4 hover:bg-gray-50 cursor-pointer border-l-4 border-primary bg-blue-50">
+                        <div class="flex items-center gap-3">
+                            <img alt="Преподаватель" class="w-10 h-10 rounded-full object-cover" src="https://cdn1.ozone.ru/s3/multimedia-1-i/7800645006.jpg"/>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-medium text-gray-900 truncate text-base">
+                                        Проф. Иванов И.И.
+                                    </h3>
+                                    <span class="text-base text-gray-500">
+                                        10:30
+                                    </span>
+                                </div>
+                                <p class="text-base text-gray-600 truncate">
+                                    Проверьте, пожалуйста, последнее задание...
+                                </p>
+                            </div>
+                            <div class="w-2 h-2 bg-primary rounded-full"></div>
+                        </div>
+                    </div>
+                    <div class="p-4 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <img alt="Преподаватель" class="w-10 h-10 rounded-full object-cover" src="https://readdy.ai/api/search-image?query=professional%20female%20teacher%20portrait%20photo%2C%20academic%20background%2C%20friendly%20professor%20headshot&amp;width=40&amp;height=40&amp;seq=teacher2&amp;orientation=squarish"/>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-medium text-gray-900 truncate text-base">
+                                        Доц. Петрова М.А.
+                                    </h3>
+                                    <span class="text-base text-gray-500">
+                                        Вчера
+                                    </span>
+                                </div>
+                                <p class="text-base text-gray-600 truncate">
+                                    Спасибо за отличную работу!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                <div class="w-5 h-5 flex items-center justify-center text-gray-600">
+                                    <i class="ri-government-line"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-medium text-gray-900 truncate text-base">
+                                        Деканат
+                                    </h3>
+                                    <span class="text-base text-gray-500">
+                                        2 дня назад
+                                    </span>
+                                </div>
+                                <p class="text-base text-gray-600 truncate">
+                                    Ваше заявление рассмотрено
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Дополнительные диалоги для демонстрации прокрутки -->
+                    <div class="p-4 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <img alt="Преподаватель" class="w-10 h-10 rounded-full object-cover" src="https://sun1-92.userapi.com/s/v1/ig2/2tzjAwQ_Y8cAmpNzE1gPbUayLDIbZG3x6EkDZ9EnUFqQUo4M2jWJVSMdy04jWQekbaoMtKu0qwyg_uivIE8HGSHi.jpg?quality=95&crop=214,256,514,514&as=32x32,48x48,72x72,108x108,160x160,240x240,360x360,480x480&ava=1&cs=200x200"/>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-medium text-gray-900 truncate text-base">
+                                        Проф. Сидоров А.В.
+                                    </h3>
+                                    <span class="text-base text-gray-500">
+                                        3 дня назад
+                                    </span>
+                                </div>
+                                <p class="text-base text-gray-600 truncate">
+                                    Вопрос по курсовой работе
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                <div class="w-5 h-5 flex items-center justify-center text-gray-600">
+                                    <i class="ri-book-line"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-medium text-gray-900 truncate text-base">
+                                        Библиотека
+                                    </h3>
+                                    <span class="text-base text-gray-500">
+                                        5 дней назад
+                                    </span>
+                                </div>
+                                <p class="text-base text-gray-600 truncate">
+                                    Книга готова к выдаче
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая карточка - Чат -->
+        <div class="flex-1 min-w-0 h-[600px] lg:h-[790px] bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col">
+            <!-- Шапка чата -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center gap-4">
+                    <img alt="Преподаватель" class="w-12 h-12 rounded-full object-cover" src="https://cdn1.ozone.ru/s3/multimedia-1-i/7800645006.jpg"/>
+                    <div>
+                        <h3 class="font-medium text-gray-900 text-subheading">
+                            Профессор Иванов И.И.
+                        </h3>
+                        <p class="text-base text-gray-600">
+                            Базы данных
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Область сообщений -->
+            <div class="flex-1 p-4 lg:p-6 space-y-4 lg:space-y-6 overflow-y-auto">
+                <div class="flex justify-start">
+                    <div class="max-w-[85%] lg:max-w-md bg-gray-100 rounded-2xl p-4">
+                        <p class="text-gray-900 text-base">
+                            Добрый день, Анна! Проверьте, пожалуйста, последнее задание по нормализации баз данных. Есть несколько замечаний.
+                        </p>
+                        <span class="text-base text-gray-500 mt-2 block">
+                            10:30
+                        </span>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="max-w-[85%] lg:max-w-md bg-primary text-white rounded-2xl p-4">
+                        <p class="text-base">
+                            Здравствуйте! Спасибо за обратную связь. Исправлю замечания и отправлю обновленную версию до конца дня.
+                        </p>
+                        <span class="text-base text-blue-200 mt-2 block">
+                            10:35
+                        </span>
+                    </div>
+                </div>
+                <div class="flex justify-start">
+                    <div class="max-w-[85%] lg:max-w-md bg-gray-100 rounded-2xl p-4">
+                        <p class="text-gray-900 text-base">
+                            Отлично! Жду исправленную версию. Также не забудьте подготовиться к зачету 28 декабря.
+                        </p>
+                        <span class="text-base text-gray-500 mt-2 block">
+                            10:40
+                        </span>
+                    </div>
+                </div>
+                <!-- Дополнительные сообщения для демонстрации -->
+                <div class="flex justify-end">
+                    <div class="max-w-[85%] lg:max-w-md bg-primary text-white rounded-2xl p-4">
+                        <p class="text-base">
+                            Хорошо, обязательно подготовлюсь. Спасибо за напоминание!
+                        </p>
+                        <span class="text-base text-blue-200 mt-2 block">
+                            10:42
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Поле ввода сообщения -->
+            <div class="p-4 lg:p-6 border-t border-gray-200">
+                <div class="flex gap-3">
+                    <input class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent text-base" placeholder="Введите сообщение..." type="text"/>
+                    <button class="bg-primary text-white px-4 lg:px-6 py-3 rounded-xl hover:bg-blue-600 transition-colors flex items-center gap-2 text-base">
+                        <i class="ri-send-plane-line"></i>
+                        <span class="hidden sm:inline">Отправить</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

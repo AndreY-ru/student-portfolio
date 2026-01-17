@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Личный кабинет{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                    },
+                    fontSize: {
+                        'heading': '34px',
+                        'subheading': '21px',
+                        'base': '14px',
+                        'description': '10px'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Remix Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    {% block head_extra %}{% endblock %}
+</head>
+
+<body class="bg-gray-50 text-base">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header - 96px height -->
+        <header class="h-24 bg-white shadow-sm border-b border-gray-200 w-full">
+            <div class="flex items-center h-full">
+                <!-- Logo - 223px width, 96px height -->
+                <div class="w-[223px] h-24 flex items-center justify-center border-r border-gray-200">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo"
+                        class="h-16 object-contain">
+                </div>
+
+                <!-- Search and user menu -->
+                <div class="flex-1 flex items-center justify-between px-6">
+                    <div class="flex-1 max-w-md">
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                                <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+                                    <i class="ri-search-line"></i>
+                                </div>
+                            </div>
+                            <input
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
+                                placeholder="Поиск..." type="text" />
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <a href="{{ url_for('notifications') }}" class="relative p-2 rounded-lg hover:bg-gray-100">
+                            <div class="w-5 h-5 flex items-center justify-center">
+                                <i class="ri-notification-line"></i>
+                            </div>
+                            <span
+                                class="absolute -top-1 -right-1 bg-red-500 text-white text-description w-5 h-5 rounded-full flex items-center justify-center">3</span>
+                        </a>
+                        <a href="{{ url_for('messages') }}" class="relative p-2 rounded-lg hover:bg-gray-100">
+                            <div class="w-5 h-5 flex items-center justify-center">
+                                <i class="ri-message-line"></i>
+                            </div>
+                            <span
+                                class="absolute -top-1 -right-1 bg-primary text-white text-description w-5 h-5 rounded-full flex items-center justify-center">7</span>
+                        </a>
+
+                        <!-- Profile Dropdown -->
+                        {% if session.get('student_name') %}
+                        <div class="relative" id="profile-dropdown">
+                            <button id="profile-btn" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+                                <!-- В шапке сайта -->
+                                <img 
+                                    class="w-8 h-8 rounded-full" 
+                                    src="{{ session.get('student_photo', '') if session.get('student_photo') else 'https://ui-avatars.com/api/?name=' + session.get('student_name', '') + '&background=3B82F6&color=fff&size=32' }}" 
+                                    alt="Profile"
+                                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('{{ session.get('student_name', '') }}') + '&background=3B82F6&color=fff&size=32';"
+                                />
+                                <span class="text-base font-medium text-gray-700">{{ session.get('student_name') }}</span>
+                                <div class="w-4 h-4 flex items-center justify-center">
+                                    <i class="ri-arrow-down-s-line"></i>
+                                </div>
+                            </button>
+                            <!-- Выпадающее меню -->
+                            <div id="dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 hidden z-50">
+                                <a href="{{ url_for('profile') }}" class="block px-4 py-2 hover:bg-gray-100 text-base">Профиль</a>
+                                <a href="{{ url_for('logout') }}" class="block px-4 py-2 hover:bg-gray-100 text-red-600 text-base">Выйти</a>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex flex-1">
+            <!-- Sidebar - 223px width, 896px height (between header and footer) -->
+            <aside class="w-[223px] bg-white shadow-lg flex flex-col border-r border-gray-200">
+                <nav class="flex-1 p-4 space-y-2">
+                    <a href="{{ url_for('profile') }}"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors {% if request.endpoint == 'profile' %}bg-gray-100{% endif %}">
+                        <i class="ri-user-line w-5 h-5"></i>
+                        <span class="text-base">Профиль</span>
+                    </a>
+                    <a href="{{ url_for('notifications') }}"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors {% if request.endpoint == 'notifications' %}bg-gray-100{% endif %}">
+                        <i class="ri-notification-line w-5 h-5"></i>
+                        <span class="text-base">Уведомления</span>
+                    </a>
+                    <a href="{{ url_for('messages') }}"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors {% if request.endpoint == 'messages' %}bg-gray-100{% endif %}">
+                        <i class="ri-message-line w-5 h-5"></i>
+                        <span class="text-base">Сообщения</span>
+                    </a>
+                    <a href="{{ url_for('grades') }}"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors {% if request.endpoint == 'grades' %}bg-gray-100{% endif %}">
+                        <i class="ri-bar-chart-line w-5 h-5"></i>
+                        <span class="text-base">Успеваемость</span>
+                    </a>
+                    <a href="{{ url_for('materials') }}"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors {% if request.endpoint == 'materials' %}bg-gray-100{% endif %}">
+                        <i class="ri-book-line w-5 h-5"></i>
+                        <span class="text-base">Материалы</span>
+                    </a>
+                    <a href="{{ url_for('portfolio') }}"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors {% if request.endpoint == 'portfolio' %}bg-gray-100{% endif %}">
+                        <i class="ri-folder-line w-5 h-5"></i>
+                        <span class="text-base">Портфолио</span>
+                    </a>
+                    <a href="{{ url_for('decanat') }}"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors {% if request.endpoint == 'decanat' %}bg-gray-100{% endif %}">
+                        <i class="ri-government-line w-5 h-5"></i>
+                        <span class="text-base">Онлайн-деканат</span>
+                    </a>
+                    <a href="{{ url_for('stipendii') }}"
+                        class="nav-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-100 transition-colors {% if request.endpoint == 'stipendii' %}bg-gray-100{% endif %}">
+                        <i class="ri-award-line w-5 h-5"></i>
+                        <span class="text-base">Стипендии</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 flex flex-col min-h-0">
+                <!-- Page Content - This will be the content block -->
+                <div class="flex-1 p-[20px] overflow-auto">
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+        </div>
+
+        <!-- Footer - 32px height -->
+        <footer class="h-8 bg-white border-t border-gray-200 w-full flex items-center justify-center">
+            <div class="text-description text-gray-500">
+                © 2025 Саратовский государственный технический университет имени Гагарина Ю.А.
+            </div>
+        </footer>
+    </div>
+
+    <div class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 w-full max-w-sm pointer-events-none" id="toast-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="toast-message pointer-events-auto transform transition-all duration-300 translate-x-0 opacity-100 flex items-center p-4 bg-white rounded-lg shadow-lg border-l-4 {% if category == 'success' %}border-green-500{% else %}border-red-500{% endif %}" role="alert">
+                        <div class="flex-shrink-0 mr-3">
+                            {% if category == 'success' %}
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="ri-check-line text-green-600 text-lg"></i>
+                                </div>
+                            {% else %}
+                                <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                    <i class="ri-error-warning-line text-red-600 text-lg"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="flex-1 mr-2">
+                            <p class="text-sm font-medium text-gray-900">
+                                {% if category == 'success' %}Успешно{% else %}Ошибка{% endif %}
+                            </p>
+                            <p class="text-sm text-gray-600">{{ message }}</p>
+                        </div>
+
+                        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-900 transition-colors">
+                            <i class="ri-close-line text-xl"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        // Автоматическое скрытие уведомлений через 5 секунд
+        document.addEventListener('DOMContentLoaded', () => {
+            const toasts = document.querySelectorAll('.toast-message');
+            toasts.forEach((toast, index) => {
+                // Добавляем небольшую задержку появления для эффекта каскада
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-10', 'opacity-0');
+                }, index * 100);
+
+                // Таймер исчезновения
+                setTimeout(() => {
+                    toast.classList.add('translate-x-full', 'opacity-0');
+                    setTimeout(() => {
+                        toast.remove();
+                    }, 300); // Ждем окончания анимации перед удалением из DOM
+                }, 5000 + (index * 500));
+            });
+        });
+    </script>
+
+    <script>
+        // Управление выпадающим меню профиля
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileBtn = document.getElementById('profile-btn');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+            
+            if (profileBtn && dropdownMenu) {
+                profileBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('hidden');
+                });
+                
+                // Закрытие меню при клике вне его
+                document.addEventListener('click', function(e) {
+                    if (!dropdownMenu.contains(e.target) && !profileBtn.contains(e.target)) {
+                        dropdownMenu.classList.add('hidden');
+                    }
+                });
+                
+                // Закрытие меню при нажатии ESC
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        dropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

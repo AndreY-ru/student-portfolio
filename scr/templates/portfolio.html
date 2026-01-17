@@ -1,0 +1,696 @@
+{% extends "base.html" %}
+
+{% block title %}Портфолио и рейтинг{% endblock %}
+
+{% block styles %}
+<style>
+    .achievement-card {
+        transition: transform 0.2s;
+    }
+
+    .achievement-card:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Стили для пошагового индикатора */
+    .step-indicator {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .step-active {
+        background-color: #3B82F6;
+        color: white;
+    }
+
+    .step-inactive {
+        background-color: #F3F4F6;
+        color: #9CA3AF;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="p-5">
+    <div class="mb-[20px]">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-heading font-bold text-gray-900">
+                    Портфолио
+                </h1>
+                <p class="text-base text-gray-500 mt-1">
+                    Управление достижениями и рейтингом
+                </p>
+            </div>
+            <div class="text-center bg-white border border-gray-200 rounded-lg px-6 py-3 shadow-sm">
+                <div class="text-subheading font-bold text-primary">{{ data.total_points }}</div>
+                <div class="text-base text-gray-500">Общий балл</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-[10px]">
+        {% for category in data.categories %}
+        <div
+            class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:border-gray-300 transition-colors group">
+            <div class="flex justify-between items-start mb-1">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center
+                    {% if category.cod == 'science' %}bg-blue-50 text-blue-600{% endif %}
+                    {% if category.cod == 'cultural' %}bg-purple-50 text-purple-600{% endif %}
+                    {% if category.cod == 'sport' %}bg-green-50 text-green-600{% endif %}
+                    {% if category.cod == 'social' %}bg-yellow-50 text-yellow-600{% endif %}">
+
+                    <i class="text-subheading
+                        {% if category.cod == 'science' %}ri-microscope-line{% endif %}
+                        {% if category.cod == 'cultural' %}ri-palette-line{% endif %}
+                        {% if category.cod == 'sport' %}ri-run-line{% endif %}
+                        {% if category.cod == 'social' %}ri-team-line{% endif %}">
+                    </i>
+                </div>
+                <span class="bg-gray-100 text-gray-600 text-description font-bold px-2 py-1 rounded-full">
+                    {{ category.total_count }} шт.
+                </span>
+            </div>
+
+            <h3 class="font-semibold text-gray-900 mb-1">{{ category.name }}</h3>
+            <div class="text-text-subheading font-bold
+                {% if category.cod == 'science' %}text-blue-600{% endif %}
+                {% if category.cod == 'cultural' %}text-purple-600{% endif %}
+                {% if category.cod == 'sport' %}text-green-600{% endif %}
+                {% if category.cod == 'social' %}text-yellow-600{% endif %}">
+                {{ category.points }} <span class="text-base font-medium text-gray-400">баллов</span>
+            </div>
+
+            <button onclick="showAddForm('{{ category.cod }}', '{{ category.id }}')"
+                class="w-full mt-4 py-1 text-base font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors">
+                <i class="ri-add-line mr-1"></i> Добавить
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-[20px]">
+        <h2 class="text-subheading font-bold text-gray-900 mb-2">Структура рейтинга</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for category in data.categories %}
+            {% set percent = (category.points / data.total_points * 100)|round|int if data.total_points > 0 else 0 %}
+
+            <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex flex-col justify-center h-full">
+                <div class="flex justify-between items-end mb-1">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full 
+                            {% if category.cod == 'science' %}bg-blue-500{% endif %}
+                            {% if category.cod == 'cultural' %}bg-purple-500{% endif %}
+                            {% if category.cod == 'sport' %}bg-green-500{% endif %}
+                            {% if category.cod == 'social' %}bg-yellow-500{% endif %}"></span>
+                        <span class="font-medium text-gray-700">{{ category.name }}</span>
+                    </div>
+                    <span class="text-description text-gray-400 font-medium">{{ percent }}% от общего</span>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div class="h-full rounded-full transition-all duration-700
+                            {% if category.cod == 'science' %}bg-blue-500{% endif %}
+                            {% if category.cod == 'cultural' %}bg-purple-500{% endif %}
+                            {% if category.cod == 'sport' %}bg-green-500{% endif %}
+                            {% if category.cod == 'social' %}bg-yellow-500{% endif %}" style="width: {{ percent }}%">
+                        </div>
+                    </div>
+                    <div class="text-right whitespace-nowrap min-w-[60px]">
+                        <span class="font-bold text-gray-900">{{ category.points }}</span>
+                        <span class="text-description text-gray-400 font-normal">балл.</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% if data.analysis %}
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-[20px]">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">
+            <i class="ri-line-chart-line mr-2"></i>Анализ конкуренции на курсе
+        </h2>
+        <p class="text-base text-gray-500 mb-2">
+            Таблица показывает ваше место среди всех студентов {{ student.course }} курса.
+            Используйте это, чтобы выбрать направление с наименьшей конкуренцией для подачи на стипендию.
+        </p>
+
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-full">
+                <thead>
+                    <tr class="bg-gray-50 border-b border-gray-200">
+                        <th class="text-left py-3 px-4 font-medium text-gray-600">Направление</th>
+                        <th class="text-center py-3 px-4 font-medium text-gray-600">Ваши баллы</th>
+                        <th class="text-center py-3 px-4 font-medium text-gray-600">Ваше место</th>
+                        <th class="text-center py-3 px-4 font-medium text-gray-600">Конкуренция</th>
+                        <th class="text-left py-3 px-4 font-medium text-gray-600">Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in data.analysis %}
+                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                        <td class="py-1.5 px-4 font-medium text-gray-900">
+                            {{ item.category_name }}
+                        </td>
+                        <td class="py-1.5 px-4 text-center">
+                            <span class="font-bold text-primary">{{ item.my_points }}</span>
+                        </td>
+                        <td class="py-1.5 px-4 text-center">
+                            <span
+                                class="inline-flex items-center justify-center w-8 h-8 rounded-full
+                                {% if item.my_rank == 1 %}bg-yellow-100 text-yellow-700 font-bold{% else %}bg-gray-100 text-gray-600{% endif %}">
+                                {{ item.my_rank }}
+                            </span>
+                        </td>
+                        <td class="py-1.5 px-4 text-center text-gray-500">
+                            из {{ item.total_participants }} студентов
+                        </td>
+                        <td class="py-1.5 px-4">
+                            {% if item.my_rank <= 3 and item.my_points> 0 %}
+                                <span class="text-green-600 text-base font-medium flex items-center gap-1">
+                                    <i class="ri-check-double-line"></i> Высокий шанс
+                                </span>
+                                {% elif item.total_participants < 5 %} <span
+                                    class="text-blue-600 text-base font-medium flex items-center gap-1">
+                                    <i class="ri-lightbulb-line"></i> Мало участников
+                                    </span>
+                                    {% else %}
+                                    <span class="text-gray-400 text-base">Обычный</span>
+                                    {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-[20px]">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+            <h2 class="text-subheading font-bold text-gray-900 mb-[5px]">
+                История достижений
+            </h2>
+            <div class="flex gap-2">
+                <select id="periodFilter"
+                    class="bg-gray-50 border-none text-base font-medium text-gray-600 rounded-lg mb-[5px] px-3 py-2 focus:ring-2 focus:ring-primary cursor-pointer hover:bg-gray-100 transition-colors">
+                    <option value="">Все семестры</option>
+                    {% for period in data.periods %}
+                    <option value="{{ period.id }}">{{ period.naming }}</option>
+                    {% endfor %}
+                </select>
+                <select id="categoryFilter"
+                    class="bg-gray-50 border-none text-base font-medium text-gray-600 rounded-lg mb-[5px] px-3 py-2 focus:ring-2 focus:ring-primary cursor-pointer hover:bg-gray-100 transition-colors">
+                    <option value="">Все категории</option>
+                    {% for category in data.categories %}
+                    <option value="{{ category.cod }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        {% if data.recent_achievements %}
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-full">
+                <thead>
+                    <tr class="border-b border-gray-100">
+                        <th class="text-left py-3 px-4 text-description font-semibold text-gray-400 uppercase tracking-wider">
+                            Категория</th>
+                        <th class="text-left py-3 px-4 text-description font-semibold text-gray-400 uppercase tracking-wider">
+                            Описание</th>
+                        <th class="text-left py-3 px-4 text-description font-semibold text-gray-400 uppercase tracking-wider">
+                            Баллы</th>
+                        <th class="text-left py-3 px-4 text-description font-semibold text-gray-400 uppercase tracking-wider">
+                            Дата</th>
+                        <th class="w-10"></th>
+                    </tr>
+                </thead>
+                <tbody id="achievementsTableBody" class="divide-y divide-gray-50">
+                    {% for achievement in data.recent_achievements %}
+                    <tr class="hover:bg-gray-50 transition-colors group">
+                        <td class="py-3 px-4">
+                            <div class="flex items-center gap-2">
+                                <div
+                                    class="w-1.5 h-1.5 rounded-full
+                                    {% if achievement.category_name == 'Научная деятельность' %}bg-blue-500{% endif %}
+                                    {% if achievement.category_name == 'Культурная деятельность' %}bg-purple-500{% endif %}
+                                    {% if achievement.category_name == 'Спортивная деятельность' %}bg-green-500{% endif %}
+                                    {% if achievement.category_name == 'Общественная деятельность' %}bg-yellow-500{% endif %}">
+                                </div>
+                                <span class="text-base font-medium text-gray-700">{{ achievement.category_name }}</span>
+                            </div>
+                        </td>
+                        <td class="py-4 px-4">
+                            <div class="text-base font-medium text-gray-900">{{ achievement.description_text }}</div>
+                            <div class="text-description text-gray-500 mt-0.5">
+                                {{ achievement.level_title }}
+                                {% if achievement.document_title %}
+                                <span class="mx-1 text-gray-300">|</span> {{ achievement.document_title }}
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="py-4 px-4">
+                            <div class="flex items-center gap-1">
+                                <span class="text-base font-bold text-gray-900">{{ achievement.points *
+                                    achievement.quantity }}</span>
+                                {% if achievement.quantity > 1 %}
+                                <span class="text-description text-gray-400 bg-gray-100 px-1.5 rounded ml-1">x{{
+                                    achievement.quantity }}</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="py-4 px-4 text-base text-gray-500">
+                            {{ achievement.created_at.strftime('%d.%m.%Y') }}
+                        </td>
+                        <td class="py-4 px-4 text-right">
+                            <button onclick="deleteAchievement('{{ achievement.id }}')"
+                                class="text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 p-1">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-16">
+            <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="ri-add-circle-line text-text-subheading text-gray-300"></i>
+            </div>
+            <p class="text-gray-500 text-base">Нет достижений. Добавьте первое!</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div id="addModal"
+    class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-auto transform transition-all relative">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h3 class="text-subheading font-bold text-gray-900">Новое достижение</h3>
+                </div>
+                <button onclick="closeAddForm()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="ri-close-line text-xl"></i>
+                </button>
+            </div>
+
+            <div class="flex items-center justify-between mb-8 px-4">
+                <div class="flex-1 flex items-center">
+                    <div class="step-indicator step-active" id="step1ind">1</div>
+                    <div class="flex-1 h-0.5 bg-gray-100 mx-2"></div>
+                    <div class="step-indicator step-inactive" id="step2ind">2</div>
+                    <div class="flex-1 h-0.5 bg-gray-100 mx-2"></div>
+                    <div class="step-indicator step-inactive" id="step3ind">3</div>
+                    <div class="flex-1 h-0.5 bg-gray-100 mx-2"></div>
+                    <div class="step-indicator step-inactive" id="step4ind">4</div>
+                </div>
+            </div>
+
+            <form id="achievementForm" method="POST" action="{{ url_for('add_achievement') }}">
+                <input type="hidden" name="category_id" id="categoryId">
+
+                <div id="step1" class="step-content">
+                    <h4 class="text-base font-semibold text-gray-500 uppercase tracking-wide mb-4">Тип участия</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <button type="button" onclick="selectAchievementType('participation')" id="btnParticipation"
+                            class="p-4 border border-gray-200 rounded-xl hover:border-primary/50 hover:bg-blue-50/50 transition-all text-left group">
+                            <div class="mb-3 text-gray-400 group-hover:text-primary transition-colors">
+                                <i class="ri-user-smile-line text-text-subheading"></i>
+                            </div>
+                            <div class="font-semibold text-gray-900 mb-1">Участие</div>
+                            <div class="text-description text-gray-500">Без призового места</div>
+                        </button>
+
+                        <button type="button" onclick="selectAchievementType('prize')" id="btnPrize"
+                            class="p-4 border border-gray-200 rounded-xl hover:border-green-500/50 hover:bg-green-50/50 transition-all text-left group">
+                            <div class="mb-3 text-gray-400 group-hover:text-green-600 transition-colors">
+                                <i class="ri-trophy-line text-text-subheading"></i>
+                            </div>
+                            <div class="font-semibold text-gray-900 mb-1">Призовое место</div>
+                            <div class="text-description text-gray-500">1-3 место, гран-при</div>
+                        </button>
+
+                        <button type="button" onclick="selectAchievementType('other')" id="btnOther"
+                            class="p-4 border border-gray-200 rounded-xl hover:border-purple-500/50 hover:bg-purple-50/50 transition-all text-left group">
+                            <div class="mb-3 text-gray-400 group-hover:text-purple-600 transition-colors">
+                                <i class="ri-star-smile-line text-text-subheading"></i>
+                            </div>
+                            <div class="font-semibold text-gray-900 mb-1">Другое</div>
+                            <div class="text-description text-gray-500">Иные активности</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="step2" class="step-content" style="display: none;">
+                    <h4 class="text-base font-semibold text-gray-500 uppercase tracking-wide mb-4">Раздел</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="sectionButtons"></div>
+                    <div id="noSectionsMessage" class="hidden text-center py-8 text-gray-500">
+                        Нет доступных разделов
+                    </div>
+                </div>
+
+                <div id="step3" class="step-content" style="display: none;">
+                    <h4 class="text-base font-semibold text-gray-500 uppercase tracking-wide mb-4">Достижение</h4>
+                    <div class="space-y-2" id="criteriaList"></div>
+                    <div id="noCriteriaMessage" class="hidden text-center py-8 text-gray-500">
+                        Нет доступных критериев
+                    </div>
+                </div>
+
+                <div id="step4" class="step-content" style="display: none;">
+
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6 flex justify-between items-start">
+                        <div>
+                            <div class="text-base text-gray-500" id="selectedCriteriaName"></div>
+                            <div class="font-semibold text-gray-900 mt-1" id="selectedCriteriaDesc"></div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-text-subheading font-bold text-primary" id="selectedCriteriaPoints">0</span>
+                            <div class="text-description text-gray-500">баллов</div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-base font-medium text-gray-700 mb-1">Уровень</label>
+                                <select id="levelSelect" name="level_type_id"
+                                    class="w-full border-gray-300 rounded-lg text-base focus:ring-primary focus:border-primary"></select>
+                            </div>
+                            <div>
+                                <label class="block text-base font-medium text-gray-700 mb-1">Количество</label>
+                                <input type="number" name="quantity" value="1" min="1"
+                                    class="w-full border-gray-300 rounded-lg text-base focus:ring-primary focus:border-primary">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">Подтверждающий документ</label>
+                            <input type="text" name="document_title"
+                                class="w-full border-gray-300 rounded-lg text-base focus:ring-primary focus:border-primary"
+                                placeholder="Например: Грамота №123">
+                        </div>
+
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">Семестр</label>
+                            <div class="w-full border border-gray-200 bg-gray-50 rounded-lg px-3 py-2 text-base text-gray-500 cursor-not-allowed">
+                                {{ data.current_period.naming }}
+                            </div>
+                            <input type="hidden" name="period_id" value="{{ data.current_period.id }}">
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="criteria_id" id="criteriaId">
+                <input type="hidden" name="achievement_type" id="achievementType">
+
+                <div class="mt-8 pt-4 border-t border-gray-100 flex justify-between items-center">
+                    <button type="button" onclick="prevStep()" id="prevBtn"
+                        class="text-gray-500 hover:text-gray-800 text-base font-medium px-4 py-2">
+                        Назад
+                    </button>
+
+                    <div class="flex gap-2">
+                        <button type="button" onclick="closeAddForm()"
+                            class="text-gray-500 hover:text-gray-800 text-base font-medium px-4 py-2">
+                            Отмена
+                        </button>
+                        <button type="button" onclick="nextStep()" id="nextBtn"
+                            class="bg-gray-900 text-white hover:bg-gray-800 px-6 py-2 rounded-lg text-base font-medium transition-colors">
+                            Далее
+                        </button>
+                        <button type="submit" id="submitBtn"
+                            class="bg-primary text-white hover:bg-blue-600 px-6 py-2 rounded-lg text-base font-medium transition-colors hidden">
+                            Сохранить
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // --- Логика фильтрации ---
+    document.addEventListener('DOMContentLoaded', function () {
+        const periodFilter = document.getElementById('periodFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+        if (periodFilter) periodFilter.addEventListener('change', applyFilters);
+        if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
+    });
+
+    function applyFilters() {
+        const periodId = document.getElementById('periodFilter').value;
+        const categoryCod = document.getElementById('categoryFilter').value;
+        const tableBody = document.getElementById('achievementsTableBody');
+
+        tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-400">Загрузка...</td></tr>';
+
+        fetch(`/filter_achievements?period_id=${periodId}&category_cod=${categoryCod}`)
+            .then(response => response.json())
+            .then(data => {
+                tableBody.innerHTML = '';
+
+                if (data.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-12 text-gray-400">Нет записей</td></tr>';
+                    return;
+                }
+
+                data.forEach(achievement => {
+                    let colorClass = 'bg-gray-400';
+                    if (achievement.category_name === 'Научная деятельность') colorClass = 'bg-blue-500';
+                    else if (achievement.category_name === 'Культурная деятельность') colorClass = 'bg-purple-500';
+                    else if (achievement.category_name === 'Спортивная деятельность') colorClass = 'bg-green-500';
+                    else if (achievement.category_name === 'Общественная деятельность') colorClass = 'bg-yellow-500';
+
+                    const row = `
+                    <tr class="hover:bg-gray-50 transition-colors group">
+                        <td class="py-4 px-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full ${colorClass}"></div>
+                                <span class="text-base font-medium text-gray-700">${achievement.category_name}</span>
+                            </div>
+                        </td>
+                        <td class="py-4 px-4">
+                            <div class="text-base font-medium text-gray-900">${achievement.description_text}</div>
+                            <div class="text-description text-gray-500 mt-0.5">
+                                ${achievement.level_title}
+                                ${achievement.document_title ? `<span class="mx-1 text-gray-300">|</span> ${achievement.document_title}` : ''}
+                            </div>
+                        </td>
+                        <td class="py-4 px-4">
+                            <div class="flex items-center gap-1">
+                                <span class="text-base font-bold text-gray-900">${achievement.points * achievement.quantity}</span>
+                                ${achievement.quantity > 1 ? `<span class="text-description text-gray-400 bg-gray-100 px-1.5 rounded ml-1">x${achievement.quantity}</span>` : ''}
+                            </div>
+                        </td>
+                        <td class="py-4 px-4 text-base text-gray-500">
+                            ${achievement.created_at}
+                        </td>
+                        <td class="py-4 px-4 text-right">
+                            <button onclick="deleteAchievement('${achievement.id}')"
+                                class="text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 p-1">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-red-500">Ошибка</td></tr>';
+            });
+    }
+
+    // --- Логика модального окна (Compact Style) ---
+    let currentStep = 1;
+    let currentCategoryCod = '';
+    let currentAchievementType = '';
+    let currentSection = '';
+    let sectionsData = {};
+    let availableCriteriaNames = [];
+    let currentSelectedName = '';
+
+    function showAddForm(categoryCod, categoryId) {
+        currentCategoryCod = categoryCod;
+        currentStep = 1;
+        document.getElementById('categoryId').value = categoryId;
+
+        // Сброс стилей кнопок первого шага
+        ['btnParticipation', 'btnPrize', 'btnOther'].forEach(id => {
+            const btn = document.getElementById(id);
+            // Сбрасываем цвета к дефолтным серым
+            btn.className = 'p-4 border border-gray-200 rounded-xl hover:border-gray-300 transition-all text-left group';
+            // Иконки
+            const iconDiv = btn.querySelector('div:first-child');
+            iconDiv.className = 'mb-3 text-gray-400 group-hover:text-gray-600 transition-colors';
+        });
+
+        showStep(1);
+        document.getElementById('addModal').classList.remove('hidden');
+        loadCriteriaData();
+    }
+
+    function loadCriteriaData() {
+        fetch(`/get_criteria_data/${currentCategoryCod}`)
+            .then(r => r.json())
+            .then(data => { sectionsData = data.sections || {}; });
+    }
+
+    function selectAchievementType(type) {
+        currentAchievementType = type;
+        document.getElementById('achievementType').value = type;
+
+        // Визуальное выделение
+        const btnMap = { 'participation': 'btnParticipation', 'prize': 'btnPrize', 'other': 'btnOther' };
+        const activeClassMap = {
+            'participation': 'border-primary bg-blue-50',
+            'prize': 'border-green-500 bg-green-50',
+            'other': 'border-purple-500 bg-purple-50'
+        };
+
+        // Сброс всех
+        ['btnParticipation', 'btnPrize', 'btnOther'].forEach(id => {
+            const btn = document.getElementById(id);
+            btn.className = 'p-4 border border-gray-200 rounded-xl hover:border-gray-300 transition-all text-left group';
+        });
+
+        // Активный
+        const activeBtn = document.getElementById(btnMap[type]);
+        activeBtn.className = `p-4 rounded-xl text-left group transition-all border-2 ${activeClassMap[type]}`;
+
+        setTimeout(() => nextStep(), 200);
+    }
+
+    function showStep(step) {
+        document.querySelectorAll('.step-content').forEach(el => el.style.display = 'none');
+        document.getElementById(`step${step}`).style.display = 'block';
+
+        updateStepIndicators(step);
+
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const prevBtn = document.getElementById('prevBtn');
+
+        prevBtn.style.visibility = step > 1 ? 'visible' : 'hidden';
+
+        if (step === 4) {
+            nextBtn.classList.add('hidden');
+            submitBtn.classList.remove('hidden');
+        } else {
+            nextBtn.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+        }
+
+        if (step === 2) populateSections();
+        if (step === 3) populateCriteria();
+        if (step === 4) populateDetails();
+    }
+
+    function populateSections() {
+        const container = document.getElementById('sectionButtons');
+        container.innerHTML = '';
+        const uniqueSections = [...new Set(Object.values(sectionsData).filter(c => c.achievement_type === currentAchievementType).map(c => c.section_naming))];
+
+        if (uniqueSections.length === 0) {
+            document.getElementById('noSectionsMessage').classList.remove('hidden');
+            return;
+        }
+        document.getElementById('noSectionsMessage').classList.add('hidden');
+
+        uniqueSections.forEach(sec => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 text-left w-full text-base font-medium transition-colors';
+            btn.textContent = sec;
+            btn.onclick = () => { currentSection = sec; nextStep(); };
+            container.appendChild(btn);
+        });
+    }
+
+    function populateCriteria() {
+        const list = document.getElementById('criteriaList');
+        list.innerHTML = '';
+        const relevant = Object.values(sectionsData).filter(c => c.section_naming === currentSection && c.achievement_type === currentAchievementType);
+        availableCriteriaNames = [...new Set(relevant.map(c => c.description_text))];
+
+        if (availableCriteriaNames.length === 0) {
+            document.getElementById('noCriteriaMessage').classList.remove('hidden');
+            return;
+        }
+        document.getElementById('noCriteriaMessage').classList.add('hidden');
+
+        availableCriteriaNames.forEach(name => {
+            const div = document.createElement('div');
+            div.className = 'p-3 border border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 cursor-pointer flex justify-between items-center text-base transition-colors';
+            div.innerHTML = `<span class="font-medium text-gray-700">${name}</span><i class="ri-arrow-right-s-line text-gray-400"></i>`;
+            div.onclick = () => { currentSelectedName = name; nextStep(); };
+            list.appendChild(div);
+        });
+    }
+
+    function populateDetails() {
+        document.getElementById('selectedCriteriaName').textContent = currentSection;
+        document.getElementById('selectedCriteriaDesc').textContent = currentSelectedName;
+
+        const levelSelect = document.getElementById('levelSelect');
+        levelSelect.innerHTML = '';
+
+        const variants = Object.values(sectionsData).filter(c => c.section_naming === currentSection && c.description_text === currentSelectedName);
+
+        variants.forEach(v => {
+            const opt = document.createElement('option');
+            opt.value = v.level_type_id;
+            opt.textContent = v.level_title;
+            opt.dataset.points = v.points;
+            opt.dataset.realId = v.id;
+            levelSelect.appendChild(opt);
+        });
+
+        const updatePoints = () => {
+            const opt = levelSelect.options[levelSelect.selectedIndex];
+            if (opt) {
+                document.getElementById('selectedCriteriaPoints').textContent = opt.dataset.points;
+                document.getElementById('criteriaId').value = opt.dataset.realId;
+            }
+        };
+
+        levelSelect.onchange = updatePoints;
+        // Инициализация первого значения
+        if (variants.length > 0) updatePoints();
+    }
+
+    function updateStepIndicators(step) {
+        for (let i = 1; i <= 4; i++) {
+            const el = document.getElementById(`step${i}ind`);
+            if (i <= step) {
+                el.classList.remove('step-inactive');
+                el.classList.add('step-active');
+            } else {
+                el.classList.remove('step-active');
+                el.classList.add('step-inactive');
+            }
+        }
+    }
+
+    function nextStep() { if (currentStep < 4) showStep(++currentStep); }
+    function prevStep() { if (currentStep > 1) showStep(--currentStep); }
+    function closeAddForm() { document.getElementById('addModal').classList.add('hidden'); }
+    function deleteAchievement(id) { if (confirm('Удалить запись?')) window.location.href = `/delete_achievement/${id}`; }
+</script>
+{% endblock %}

@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<!-- Используем p-5 для 20px отступов как в notifications.html -->
+<div class="p-5">
+    <div class="flex flex-col lg:flex-row gap-3">
+        <!-- Основной контент - левая часть -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex-1">
+            <div class="mb-3">
+                <h1 class="text-heading font-bold text-gray-900 leading-tight">
+                    Профиль пользователя
+                </h1>
+                <p class="text-base text-gray-600">
+                    Управление личными данными и настройками аккаунта
+                </p>
+            </div>
+
+            <!-- Форма обновления профиля -->
+            <form action="{{ url_for('update_profile') }}" method="POST">
+                <!-- Личные данные -->
+                <div class="mb-3">
+                    <h2 class="text-subheading font-semibold text-gray-900 mb-2">
+                        Личные данные
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Фамилия
+                            </label>
+                            <input class="w-full px-3 py-1 border border-gray-300 rounded-lg bg-gray-50 text-base"
+                                type="text" value="{{ student.surname }}" readonly />
+                        </div>
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Имя
+                            </label>
+                            <input class="w-full px-3 py-1 border border-gray-300 rounded-lg bg-gray-50 text-base"
+                                type="text" value="{{ student.first_name }}" readonly />
+                        </div>
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Отчество
+                            </label>
+                            <input class="w-full px-3 py-1 border border-gray-300 rounded-lg bg-gray-50 text-base"
+                                type="text" value="{{ student.middle_name or '' }}" readonly />
+                        </div>
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Дата рождения
+                            </label>
+                            <input class="w-full px-3 py-1 border border-gray-300 rounded-lg bg-gray-50 text-base"
+                                type="text" value="{{ student.birth_date_str }}" readonly />
+                        </div>
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Группа
+                            </label>
+                            <input class="w-full px-3 py-1 border border-gray-300 rounded-lg bg-gray-50 text-base"
+                                readonly type="text" value="{{ student.group_name }}" />
+                        </div>
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Курс
+                            </label>
+                            <input class="w-full px-3 py-1 border border-gray-300 rounded-lg bg-gray-50 text-base"
+                                readonly type="text" value="{{ student.course }}" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Контактная информация -->
+                <div class="mb-3">
+                    <h2 class="text-subheading font-semibold text-gray-900 mb-2">
+                        Контактная информация
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Email
+                            </label>
+                            <input name="email"
+                                class="w-full px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
+                                type="email" value="{{ student.email }}"
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                                title="Введите корректный email" placeholder="example@domain.com" required />
+                        </div>
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Телефон
+                            </label>
+                            <input name="phone"
+                                class="w-full px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
+                                type="tel" value="{{ student.phone }}" pattern="\+7\d{10}"
+                                title="Введите телефон в формате +7XXXXXXXXXX" placeholder="+7XXXXXXXXXX" required />
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Адрес
+                            </label>
+                            <input name="address"
+                                class="w-full px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
+                                type="text" value="{{ student.address }}" title="Введите полный адрес"
+                                placeholder="ул. Название улицы, д. Номер" minlength="5" required />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопки сохранения -->
+                <div class="mt-4 flex flex-col sm:flex-row justify-end gap-2">
+                    <button type="button" onclick="location.reload()"
+                        class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-base order-2 sm:order-1">
+                        Отменить
+                    </button>
+                    <button type="submit"
+                        class="bg-primary text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors text-base order-1 sm:order-2">
+                        Сохранить изменения
+                    </button>
+                </div>
+            </form>
+
+            <!-- Смена пароля (отдельная форма) -->
+            <div class="mt-4 pt-4 border-t border-gray-200">
+                <form action="{{ url_for('update_password') }}" method="POST">
+                    <h2 class="text-subheading font-semibold text-gray-900 mb-2">
+                        Смена пароля
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Текущий пароль
+                            </label>
+                            <input name="current_password"
+                                class="w-full px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
+                                type="password" required />
+                        </div>
+                        <div>
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Новый пароль
+                            </label>
+                            <input name="new_password"
+                                class="w-full px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
+                                type="password" required />
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-base font-medium text-gray-700 mb-1">
+                                Подтвердите пароль
+                            </label>
+                            <input name="confirm_password"
+                                class="w-full px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
+                                type="password" required />
+                        </div>
+                    </div>
+                    <div class="mt-2 flex flex-col sm:flex-row justify-end gap-2">
+                        <button type="button" onclick="location.reload()"
+                            class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-base">
+                            Отменить
+                        </button>
+                        <button type="submit"
+                            class="bg-primary text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors text-base">
+                            Сменить пароль
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Боковая панель - правая часть -->
+        <div class="flex flex-col gap-3 lg:w-64">
+            <!-- Карточка с фото профиля -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                <h2 class="text-subheading font-semibold text-gray-900 mb-2">
+                    Фото профиля
+                </h2>
+                <div class="text-center">
+                    <!-- В карточке с фото профиля -->
+                    <img alt="Профиль" class="w-16 h-16 rounded-full mx-auto mb-2 object-cover"
+                        src="{{ student.profile_photo if student.profile_photo else 'https://ui-avatars.com/api/?name=' + student.surname + '+' + student.first_name + '&background=3B82F6&color=fff&size=64' }}"
+                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('{{ student.surname }} {{ student.first_name }}') + '&background=3B82F6&color=fff&size=64';" />
+                    <button type="button" onclick="showPhotoUpload()"
+                        class="bg-primary text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors text-base">
+                        Изменить фото
+                    </button>
+                </div>
+            </div>
+
+            <!-- Карточка с информацией об обучении -->
+            <div class="h-[595px] bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                <h2 class="text-subheading font-semibold text-gray-900 mb-2">
+                    Информация об обучении
+                </h2>
+                <div class="space-y-1.5">
+                    <div>
+                        <span class="block text-base text-gray-600">
+                            Номер зачетной книжки:
+                        </span>
+                        <span class="font-medium text-gray-900 text-base">
+                            {{ student.gradebook_number }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="block text-base text-gray-600">
+                            Специальность:
+                        </span>
+                        <span class="font-medium text-gray-900 text-base">
+                            {{ student.specialty_name }} ({{ student.cod_specialty }})
+                        </span>
+                    </div>
+                    <div>
+                        <span class="block text-base text-gray-600">
+                            Форма обучения:
+                        </span>
+                        <span class="font-medium text-gray-900 text-base">
+                            {{ student.form_study_name }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="block text-base text-gray-600">
+                            Куратор:
+                        </span>
+                        <span class="font-medium text-gray-900 text-base">
+                            {{ student.tutor_surname }} {{ student.tutor_first_name }} {{ student.tutor_middle_name }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="block text-base text-gray-600">
+                            Год поступления:
+                        </span>
+                        <span class="font-medium text-gray-900 text-base">
+                            {{ student.created_year if student.created_year else '2021' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="block text-base text-gray-600">
+                            Год окончания:
+                        </span>
+                        <span class="font-medium text-gray-900 text-base">
+                            {{ student.graduation_year }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для загрузки фото -->
+<div id="photoUploadModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+        <div class="p-4 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <h3 class="text-subheading font-semibold text-gray-900">
+                    Изменить фото профиля
+                </h3>
+                <button onclick="hidePhotoUpload()" class="text-gray-400 hover:text-gray-500">
+                    <div class="w-5 h-5 flex items-center justify-center">
+                        ✕
+                    </div>
+                </button>
+            </div>
+        </div>
+        <form action="{{ url_for('upload_photo') }}" method="POST" class="p-4">
+            <div class="mb-3">
+                <label class="block text-base font-medium text-gray-700 mb-1">
+                    URL фото
+                </label>
+                <input type="url" name="photo_url"
+                    class="w-full px-3 py-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-base"
+                    placeholder="https://example.com/photo.jpg" required />
+            </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="hidePhotoUpload()"
+                    class="px-3 py-1 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-base">
+                    Отмена
+                </button>
+                <button type="submit"
+                    class="bg-primary text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors text-base">
+                    Сохранить
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showPhotoUpload() {
+        document.getElementById('photoUploadModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hidePhotoUpload() {
+        document.getElementById('photoUploadModal').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    // Закрытие по клику вне модального окна
+    document.getElementById('photoUploadModal').addEventListener('click', function (e) {
+        if (e.target === this) {
+            hidePhotoUpload();
+        }
+    });
+</script>
+
+<script>
+// Динамическая валидация формы
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[action="{{ url_for('update_profile') }}"]');
+    
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+            const email = form.querySelector('input[name="email"]');
+            const phone = form.querySelector('input[name="phone"]');
+            const address = form.querySelector('input[name="address"]');
+            
+            // Проверка email
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailPattern.test(email.value)) {
+                showError(email, 'Email должен быть в формате example@domain.com');
+                isValid = false;
+            } else {
+                clearError(email);
+            }
+            
+            // Проверка телефона
+            const phonePattern = /^\+7\d{10}$/;
+            if (!phonePattern.test(phone.value)) {
+                showError(phone, 'Телефон должен быть в формате +7XXXXXXXXXX (10 цифр после +7)');
+                isValid = false;
+            } else {
+                clearError(phone);
+            }
+            
+            // Проверка адреса
+            if (address.value.length < 5) {
+                showError(address, 'Адрес должен содержать не менее 5 символов');
+                isValid = false;
+            } else if (!/(ул\.|улица|проспект|пр\.).*(дом|д\.|\d)/i.test(address.value)) {
+                showError(address, 'Адрес должен содержать улицу и дом (например, "ул. Ленина, д. 10")');
+                isValid = false;
+            } else {
+                clearError(address);
+            }
+            
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+        
+        // Валидация на лету
+        ['email', 'phone', 'address'].forEach(fieldName => {
+            const field = form.querySelector(`input[name="${fieldName}"]`);
+            if (field) {
+                field.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                field.addEventListener('input', function() {
+                    clearError(this);
+                });
+            }
+        });
+        
+        function validateField(field) {
+            if (field.name === 'email') {
+                const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!pattern.test(field.value)) {
+                    showError(field, 'Email должен быть в формате example@domain.com');
+                } else {
+                    clearError(field);
+                }
+            } else if (field.name === 'phone') {
+                const pattern = /^\+7\d{10}$/;
+                if (!pattern.test(field.value)) {
+                    showError(field, 'Телефон должен быть в формате +7XXXXXXXXXX (10 цифр после +7)');
+                } else {
+                    clearError(field);
+                }
+            } else if (field.name === 'address') {
+                if (field.value.length < 5) {
+                    showError(field, 'Адрес должен содержать не менее 5 символов');
+                } else if (!/(ул\.|улица|проспект|пр\.).*(дом|д\.|\d)/i.test(field.value)) {
+                    showError(field, 'Адрес должен содержать улицу и дом');
+                } else {
+                    clearError(field);
+                }
+            }
+        }
+        
+        function showError(field, message) {
+            clearError(field);
+            field.classList.add('border-red-500');
+            
+            let errorDiv = document.createElement('div');
+            errorDiv.className = 'text-red-500 text-description mt-1';
+            errorDiv.textContent = message;
+            errorDiv.id = field.name + '-error';
+            
+            field.parentNode.appendChild(errorDiv);
+        }
+        
+        function clearError(field) {
+            field.classList.remove('border-red-500');
+            const errorDiv = document.getElementById(field.name + '-error');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+    }
+});
+</script>ф
+{% endblock %}

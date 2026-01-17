@@ -1,0 +1,391 @@
+{% extends "base.html" %}
+
+{% block title %}Учебные материалы - Личный кабинет{% endblock %}
+
+{% block head_extra %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Функция для переключения вкладок
+    function switchTab(tabName) {
+        // Скрыть все содержимое вкладок
+        document.querySelectorAll('.material-content').forEach(content => {
+            content.classList.add('hidden');
+        });
+        
+        // Показать выбранную вкладку
+        const activeContent = document.getElementById(tabName + '-content');
+        if (activeContent) {
+            activeContent.classList.remove('hidden');
+        }
+        
+        // Обновить стили кнопок вкладок
+        document.querySelectorAll('.material-tab').forEach(tab => {
+            if (tab.getAttribute('data-tab') === tabName) {
+                tab.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                tab.classList.add('bg-primary', 'text-white');
+            } else {
+                tab.classList.remove('bg-primary', 'text-white');
+                tab.classList.add('text-gray-600', 'hover:bg-gray-100');
+            }
+        });
+    }
+    
+    // Функция для переключения предметов
+    function switchSubject(subjectName) {
+        // Обновить стили кнопок предметов
+        document.querySelectorAll('.subject-btn').forEach(btn => {
+            if (btn.getAttribute('data-subject') === subjectName) {
+                btn.classList.remove('text-gray-700', 'hover:bg-gray-100');
+                btn.classList.add('text-primary', 'bg-blue-50');
+            } else {
+                btn.classList.remove('text-primary', 'bg-blue-50');
+                btn.classList.add('text-gray-700', 'hover:bg-gray-100');
+            }
+        });
+        
+        // Здесь можно добавить логику загрузки данных для выбранного предмета
+        console.log('Выбран предмет:', subjectName);
+    }
+    
+    // Назначить обработчики событий для вкладок
+    document.querySelectorAll('.material-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            const tabName = this.getAttribute('data-tab');
+            switchTab(tabName);
+        });
+    });
+    
+    // Назначить обработчики событий для предметов
+    document.querySelectorAll('.subject-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const subjectName = this.getAttribute('data-subject');
+            switchSubject(subjectName);
+        });
+    });
+    
+    // Инициализация - показать первую вкладку
+    switchTab('lectures');
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="p-5 flex flex-col gap-5" id="materials">
+    <!-- Заголовок -->
+    <div>
+        <h1 class="text-heading font-bold text-gray-900">
+            Учебные материалы
+        </h1>
+        <p class="text-base text-gray-600 mt-1">
+            Доступ к лекциям, заданиям и загрузка выполненных работ
+        </p>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
+        <!-- Левая карточка - Предметы -->
+        <div class="lg:col-span-1 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col min-h-[600px]">
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="font-semibold text-gray-900 text-base">
+                    Предметы
+                </h2>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto">
+                <div class="space-y-2">
+                    <button class="subject-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 text-primary bg-blue-50" data-subject="databases">
+                        <div class="font-medium text-base">Базы данных</div>
+                        <div class="text-base text-gray-600 mt-1">Проф. Иванов И.И.</div>
+                    </button>
+                    <button class="subject-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700" data-subject="webdev">
+                        <div class="font-medium text-base">Веб-программирование</div>
+                        <div class="text-base text-gray-600 mt-1">Доц. Петрова М.А.</div>
+                    </button>
+                    <button class="subject-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700" data-subject="algorithms">
+                        <div class="font-medium text-base">Алгоритмы и структуры данных</div>
+                        <div class="text-base text-gray-600 mt-1">Проф. Сидоров А.В.</div>
+                    </button>
+                    <button class="subject-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700" data-subject="logic">
+                        <div class="font-medium text-base">Математическая логика</div>
+                        <div class="text-base text-gray-600 mt-1">Доц. Козлова Е.Н.</div>
+                    </button>
+                    <button class="subject-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700" data-subject="os">
+                        <div class="font-medium text-base">Операционные системы</div>
+                        <div class="text-base text-gray-600 mt-1">Доц. Николаев П.С.</div>
+                    </button>
+                    <button class="subject-btn w-full text-left px-4 py-3 rounded-lg hover:bg-gray-100 text-gray-700" data-subject="english">
+                        <div class="font-medium text-base">Иностранный язык</div>
+                        <div class="text-base text-gray-600 mt-1">Ст. преп. Смирнова О.К.</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая карточка - Контент -->
+        <div class="lg:col-span-3 bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col min-h-[600px]">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    <div>
+                        <h2 class="text-subheading font-semibold text-gray-900">
+                            Базы данных
+                        </h2>
+                        <p class="text-base text-gray-600 mt-1">
+                            Проф. Иванов И.И.
+                        </p>
+                    </div>
+                    <div class="flex gap-2 flex-wrap">
+                        <button class="material-tab px-4 py-2 bg-primary text-white rounded-lg text-base" data-tab="lectures">
+                            Лекции
+                        </button>
+                        <button class="material-tab px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-base" data-tab="assignments">
+                            Задания
+                        </button>
+                        <button class="material-tab px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-base" data-tab="uploads">
+                            Мои работы
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Содержимое вкладки Лекции -->
+            <div class="material-content flex-1 p-6 overflow-y-auto" id="lectures-content">
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-6 h-6 flex items-center justify-center text-red-600">
+                                <i class="ri-file-pdf-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Лекция 1: Введение в базы данных
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Основные понятия, модели данных, СУБД
+                            </p>
+                            <div class="flex items-center gap-4 mt-2 text-base text-gray-500">
+                                <span>
+                                    15 сентября 2024
+                                </span>
+                                <span>
+                                    2.5 МБ
+                                </span>
+                            </div>
+                        </div>
+                        <button class="text-primary hover:underline whitespace-nowrap self-start sm:self-center text-base">
+                            Скачать
+                        </button>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-6 h-6 flex items-center justify-center text-red-600">
+                                <i class="ri-file-pdf-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Лекция 2: Реляционная модель данных
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Отношения, ключи, нормализация
+                            </p>
+                            <div class="flex items-center gap-4 mt-2 text-base text-gray-500">
+                                <span>
+                                    22 сентября 2024
+                                </span>
+                                <span>
+                                    3.1 МБ
+                                </span>
+                            </div>
+                        </div>
+                        <button class="text-primary hover:underline whitespace-nowrap self-start sm:self-center text-base">
+                            Скачать
+                        </button>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-6 h-6 flex items-center justify-center text-green-600">
+                                <i class="ri-play-circle-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Видеолекция: SQL запросы
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Практические примеры работы с SQL
+                            </p>
+                            <div class="flex items-center gap-4 mt-2 text-base text-gray-500">
+                                <span>
+                                    29 сентября 2024
+                                </span>
+                                <span>
+                                    45 минут
+                                </span>
+                            </div>
+                        </div>
+                        <button class="text-primary hover:underline whitespace-nowrap self-start sm:self-center text-base">
+                            Смотреть
+                        </button>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-6 h-6 flex items-center justify-center text-red-600">
+                                <i class="ri-file-pdf-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Лекция 3: Нормализация баз данных
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Нормальные формы, функциональные зависимости
+                            </p>
+                            <div class="flex items-center gap-4 mt-2 text-base text-gray-500">
+                                <span>
+                                    6 октября 2024
+                                </span>
+                                <span>
+                                    2.8 МБ
+                                </span>
+                            </div>
+                        </div>
+                        <button class="text-primary hover:underline whitespace-nowrap self-start sm:self-center text-base">
+                            Скачать
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Содержимое вкладки Задания -->
+            <div class="material-content flex-1 p-6 overflow-y-auto hidden" id="assignments-content">
+                <div class="space-y-4">
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Лабораторная работа №5: Нормализация БД
+                            </h3>
+                            <span class="px-2 py-1 bg-green-100 text-green-800 text-base rounded self-start sm:self-center">
+                                Сдано
+                            </span>
+                        </div>
+                        <p class="text-base text-gray-600 mb-3">
+                            Выполнить нормализацию базы данных до 3НФ
+                        </p>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-base">
+                            <span class="text-gray-500">
+                                Срок сдачи: 20 декабря 2024
+                            </span>
+                            <span class="text-green-600 font-medium">
+                                Оценка: Отлично
+                            </span>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Практическое задание №6: Индексы
+                            </h3>
+                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-base rounded self-start sm:self-center">
+                                В работе
+                            </span>
+                        </div>
+                        <p class="text-base text-gray-600 mb-3">
+                            Создать индексы для оптимизации запросов
+                        </p>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-base">
+                            <span class="text-gray-500">
+                                Срок сдачи: 25 декабря 2024
+                            </span>
+                            <button class="text-primary hover:underline self-start sm:self-center text-base">
+                                Загрузить работу
+                            </button>
+                        </div>
+                    </div>
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Курсовой проект
+                            </h3>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-800 text-base rounded self-start sm:self-center">
+                                Назначено
+                            </span>
+                        </div>
+                        <p class="text-base text-gray-600 mb-3">
+                            Разработка информационной системы с использованием реляционной БД
+                        </p>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-base">
+                            <span class="text-gray-500">
+                                Срок сдачи: 15 января 2025
+                            </span>
+                            <button class="text-primary hover:underline self-start sm:self-center text-base">
+                                Подробнее
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Содержимое вкладки Мои работы -->
+            <div class="material-content flex-1 p-6 overflow-y-auto hidden" id="uploads-content">
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 sm:p-8 text-center mb-6">
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg mx-auto mb-4 flex items-center justify-center">
+                        <div class="w-6 h-6 flex items-center justify-center text-gray-600">
+                            <i class="ri-upload-cloud-line"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-subheading font-medium text-gray-900 mb-2">
+                        Загрузить файл
+                    </h3>
+                    <p class="text-base text-gray-600 mb-4">
+                        Перетащите файл сюда или нажмите для выбора
+                    </p>
+                    <button class="bg-primary text-white px-4 py-2 rounded-lg whitespace-nowrap hover:bg-blue-600 transition-colors text-base">
+                        Выбрать файл
+                    </button>
+                </div>
+                <div class="space-y-3">
+                    <h3 class="font-medium text-gray-900 text-base">
+                        Загруженные файлы
+                    </h3>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-4 h-4 flex items-center justify-center text-blue-600">
+                                <i class="ri-file-word-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-medium text-gray-900 text-base">
+                                Лабораторная_работа_5.docx
+                            </h4>
+                            <p class="text-base text-gray-600">
+                                Загружено 18 декабря 2024 • 1.2 МБ
+                            </p>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 text-base rounded self-start sm:self-center">
+                            Проверено
+                        </span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-4 h-4 flex items-center justify-center text-red-600">
+                                <i class="ri-file-pdf-line"></i>
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-medium text-gray-900 text-base">
+                                Отчет_по_практике.pdf
+                            </h4>
+                            <p class="text-base text-gray-600">
+                                Загружено 15 декабря 2024 • 2.8 МБ
+                            </p>
+                        </div>
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-base rounded self-start sm:self-center">
+                            На проверке
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

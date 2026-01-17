@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+
+{% block title %}Успеваемость{% endblock %}
+
+{% block content %}
+<div class="p-5 flex flex-col gap-5" id="grades">
+    <!-- Заголовок -->
+    <div>
+        <h1 class="text-heading font-bold text-gray-900">
+            Успеваемость
+        </h1>
+        <p class="text-base text-gray-600 mt-1">
+            Журнал оценок, посещаемость и электронная зачетная книжка
+        </p>
+    </div>
+
+    <!-- Верхние 4 карточки -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <div class="w-6 h-6 flex items-center justify-center text-green-600">
+                        <i class="ri-trophy-line"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-subheading font-bold text-gray-900">
+                        4.7
+                    </p>
+                    <p class="text-base text-gray-600">
+                        Средний балл
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <div class="w-6 h-6 flex items-center justify-center text-blue-600">
+                        <i class="ri-calendar-check-line"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-subheading font-bold text-gray-900">
+                        92%
+                    </p>
+                    <p class="text-base text-gray-600">
+                        Посещаемость
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <div class="w-6 h-6 flex items-center justify-center text-purple-600">
+                        <i class="ri-book-line"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-subheading font-bold text-gray-900">
+                        8
+                    </p>
+                    <p class="text-base text-gray-600">
+                        Предметов
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <div class="w-6 h-6 flex items-center justify-center text-orange-600">
+                        <i class="ri-star-line"></i>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-subheading font-bold text-gray-900">
+                        15
+                    </p>
+                    <p class="text-base text-gray-600">
+                        Зачетов
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижние 2 большие карточки -->
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
+        <!-- Левая карточка - Журнал оценок -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col min-h-[200px]">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <h2 class="text-subheading font-semibold text-gray-900">
+                        Журнал оценок
+                    </h2>
+                    <select class="px-3 py-2 border border-gray-300 rounded-lg text-base pr-8 w-full sm:w-auto">
+                        <option>
+                            5 семестр
+                        </option>
+                        <option>
+                            4 семестр
+                        </option>
+                        <option>
+                            3 семестр
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto">
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Базы данных
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Проф. Иванов И.И.
+                            </p>
+                        </div>
+                        <div class="text-right ml-4">
+                            <div class="text-subheading font-bold text-green-600">
+                                5
+                            </div>
+                            <div class="text-base text-gray-500">
+                                Экзамен
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Веб-программирование
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Доц. Петрова М.А.
+                            </p>
+                        </div>
+                        <div class="text-right ml-4">
+                            <div class="text-subheading font-bold text-green-600">
+                                5
+                            </div>
+                            <div class="text-base text-gray-500">
+                                Зачет
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Алгоритмы и структуры данных
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Проф. Сидоров А.В.
+                            </p>
+                        </div>
+                        <div class="text-right ml-4">
+                            <div class="text-subheading font-bold text-blue-600">
+                                4
+                            </div>
+                            <div class="text-base text-gray-500">
+                                Экзамен
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-medium text-gray-900 text-base">
+                                Операционные системы
+                            </h3>
+                            <p class="text-base text-gray-600">
+                                Доц. Николаев П.С.
+                            </p>
+                        </div>
+                        <div class="text-right ml-4">
+                            <div class="text-subheading font-bold text-green-600">
+                                5
+                            </div>
+                            <div class="text-base text-gray-500">
+                                Зачет
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правая карточка - Посещаемость -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col min-h-[200px]">
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-subheading font-semibold text-gray-900">
+                    Посещаемость
+                </h2>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto">
+                <div class="space-y-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <span class="text-gray-700 font-medium text-base">
+                            Базы данных
+                        </span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-24 sm:w-32 bg-gray-200 rounded-full h-3">
+                                <div class="bg-green-500 h-3 rounded-full" style="width: 95%"></div>
+                            </div>
+                            <span class="text-base font-medium text-gray-900 w-12">
+                                95%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <span class="text-gray-700 font-medium text-base">
+                            Веб-программирование
+                        </span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-24 sm:w-32 bg-gray-200 rounded-full h-3">
+                                <div class="bg-green-500 h-3 rounded-full" style="width: 100%"></div>
+                            </div>
+                            <span class="text-base font-medium text-gray-900 w-12">
+                                100%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <span class="text-gray-700 font-medium text-base">
+                            Алгоритмы
+                        </span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-24 sm:w-32 bg-gray-200 rounded-full h-3">
+                                <div class="bg-yellow-500 h-3 rounded-full" style="width: 85%"></div>
+                            </div>
+                            <span class="text-base font-medium text-gray-900 w-12">
+                                85%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <span class="text-gray-700 font-medium text-base">
+                            Математическая логика
+                        </span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-24 sm:w-32 bg-gray-200 rounded-full h-3">
+                                <div class="bg-green-500 h-3 rounded-full" style="width: 92%"></div>
+                            </div>
+                            <span class="text-base font-medium text-gray-900 w-12">
+                                92%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <span class="text-gray-700 font-medium text-base">
+                            Операционные системы
+                        </span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-24 sm:w-32 bg-gray-200 rounded-full h-3">
+                                <div class="bg-green-500 h-3 rounded-full" style="width: 88%"></div>
+                            </div>
+                            <span class="text-base font-medium text-gray-900 w-12">
+                                88%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <span class="text-gray-700 font-medium text-base">
+                            Иностранный язык
+                        </span>
+                        <div class="flex items-center gap-3">
+                            <div class="w-24 sm:w-32 bg-gray-200 rounded-full h-3">
+                                <div class="bg-green-500 h-3 rounded-full" style="width: 96%"></div>
+                            </div>
+                            <span class="text-base font-medium text-gray-900 w-12">
+                                96%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 p-4 bg-blue-50 rounded-lg">
+                    <div class="flex items-center gap-2 text-blue-800">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-information-line"></i>
+                        </div>
+                        <span class="font-medium text-base">
+                            Напоминание
+                        </span>
+                    </div>
+                    <p class="text-base text-blue-700 mt-1">
+                        Для получения зачета автоматом необходимо иметь посещаемость не менее 80%
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
